@@ -1,0 +1,1259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2113.65">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px 'PingFang SC'}
+    span.s1 {font: 12.0px Helvetica}
+    span.s2 {font: 12.0px 'Apple Color Emoji'}
+    span.s3 {font: 12.0px 'PingFang SC'}
+    span.s4 {font: 12.0px 'Lucida Grande'}
+    span.s5 {font: 12.0px 'Zapf Dingbats'}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1">&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1">&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1">&lt;title&gt;TrialBridge — Find Your Clinical Trial&lt;/title&gt;</p>
+<p class="p1">&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;</p>
+<p class="p1">&lt;link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=DM+Sans:wght@300;400;500;600&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet"&gt;</p>
+<p class="p1">&lt;style&gt;</p>
+<p class="p1">/* ── RESET &amp; TOKENS ─────────────────────────── */</p>
+<p class="p1">*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }</p>
+<p class="p2"><br></p>
+<p class="p1">:root {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--ink:<span class="Apple-converted-space">        </span>#0d1117;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--ink-soft: <span class="Apple-converted-space">  </span>#3d4654;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--ink-muted:<span class="Apple-converted-space">  </span>#7a8494;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--paper:<span class="Apple-converted-space">      </span>#f8f6f1;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--paper-warm: #f0ede6;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--paper-deep: #e8e3da;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--teal: <span class="Apple-converted-space">      </span>#0d7a6e;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--teal-light: #e6f4f2;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--teal-mid: <span class="Apple-converted-space">  </span>#1a9e8f;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--amber:<span class="Apple-converted-space">      </span>#c4620d;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--amber-light:#fef3e8;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--green:<span class="Apple-converted-space">      </span>#1a7a3c;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--green-light:#e8f5ed;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--red:<span class="Apple-converted-space">        </span>#c4280d;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--red-light:<span class="Apple-converted-space">  </span>#fef0ed;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--blue: <span class="Apple-converted-space">      </span>#1a4a8a;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--blue-light: #eaf0fb;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--radius-sm:<span class="Apple-converted-space">  </span>6px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--radius-md:<span class="Apple-converted-space">  </span>12px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--radius-lg:<span class="Apple-converted-space">  </span>20px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--shadow-sm:<span class="Apple-converted-space">  </span>0 1px 3px rgba(13,17,23,0.08), 0 1px 2px rgba(13,17,23,0.04);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--shadow-md:<span class="Apple-converted-space">  </span>0 4px 16px rgba(13,17,23,0.10), 0 2px 4px rgba(13,17,23,0.06);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--shadow-lg:<span class="Apple-converted-space">  </span>0 16px 48px rgba(13,17,23,0.14), 0 4px 12px rgba(13,17,23,0.08);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">html { font-size: 16px; scroll-behavior: smooth; }</p>
+<p class="p1">body {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-family: 'DM Sans', system-ui, sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background: var(--paper);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>color: var(--ink);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>min-height: 100vh;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>line-height: 1.6;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>overflow-x: hidden;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">/* ── TYPOGRAPHY ─────────────────────────────── */</p>
+<p class="p1">.serif { font-family: 'Instrument Serif', Georgia, serif; }</p>
+<p class="p1">.mono<span class="Apple-converted-space">  </span>{ font-family: 'DM Mono', 'Courier New', monospace; }</p>
+<p class="p2"><br></p>
+<p class="p1">h1, h2, h3 { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; line-height: 1.2; }</p>
+<p class="p2"><br></p>
+<p class="p1">/* ── LAYOUT ─────────────────────────────────── */</p>
+<p class="p1">.container { max-width: 720px; margin: 0 auto; padding: 0 20px; }</p>
+<p class="p1">.container-wide { max-width: 960px; margin: 0 auto; padding: 0 20px; }</p>
+<p class="p2"><br></p>
+<p class="p1">/* ── HEADER ─────────────────────────────────── */</p>
+<p class="p1">header {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border-bottom: 1px solid var(--paper-deep);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background: var(--paper);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>position: sticky; top: 0; z-index: 100;</p>
+<p class="p1">}</p>
+<p class="p1">.header-inner {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>max-width: 960px; margin: 0 auto; padding: 14px 20px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>display: flex; align-items: center; gap: 10px;</p>
+<p class="p1">}</p>
+<p class="p1">.logo {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-family: 'Instrument Serif', serif;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-size: 22px; color: var(--ink);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>display: flex; align-items: center; gap: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>text-decoration: none;</p>
+<p class="p1">}</p>
+<p class="p1">.logo-mark {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>width: 32px; height: 32px; border-radius: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background: var(--teal);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>display: flex; align-items: center; justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>flex-shrink: 0;</p>
+<p class="p1">}</p>
+<p class="p1">.logo-mark svg { width: 18px; height: 18px; }</p>
+<p class="p1">.logo-sub { font-size: 12px; color: var(--ink-muted); font-family: 'DM Sans', sans-serif; margin-left: 2px; font-weight: 400; }</p>
+<p class="p1">.header-inner .spacer { flex: 1; }</p>
+<p class="p1">.api-status {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-size: 11px; font-family: 'DM Mono', monospace;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>padding: 4px 10px; border-radius: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background: var(--paper-warm); color: var(--ink-muted);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border: 1px solid var(--paper-deep);</p>
+<p class="p1">}</p>
+<p class="p1">.api-status.ok { background: var(--green-light); color: var(--green); border-color: rgba(26,122,60,0.2); }</p>
+<p class="p2"><br></p>
+<p class="p1">/* ── SCREENS ─────────────────────────────────── */</p>
+<p class="p1">.screen { display: none; }</p>
+<p class="p1">.screen.active { display: block; }</p>
+<p class="p2"><br></p>
+<p class="p3"><span class="s1">/* </span>══<span class="s1"> SCREEN 1: INTAKE </span>══════════════════════════<span class="s1"> */</span></p>
+<p class="p1">#screen-intake { padding: 48px 0 80px; }</p>
+<p class="p2"><br></p>
+<p class="p1">.intake-hero {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>text-align: center; margin-bottom: 48px;</p>
+<p class="p1">}</p>
+<p class="p1">.intake-hero h1 {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-size: clamp(36px, 6vw, 54px);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>color: var(--ink); margin-bottom: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>line-height: 1.15;</p>
+<p class="p1">}</p>
+<p class="p1">.intake-hero h1 em { color: var(--teal); font-style: italic; }</p>
+<p class="p1">.intake-hero p {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-size: 17px; color: var(--ink-soft);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>max-width: 500px; margin: 0 auto;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>line-height: 1.7;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">/* User type selector */</p>
+<p class="p1">.user-type-row {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>display: grid; grid-template-columns: repeat(3, 1fr);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>gap: 10px; margin-bottom: 32px;</p>
+<p class="p1">}</p>
+<p class="p1">.user-chip {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border: 1.5px solid var(--paper-deep);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border-radius: var(--radius-md);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>padding: 14px 12px; cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>transition: all 0.18s; background: white;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>text-align: center;</p>
+<p class="p1">}</p>
+<p class="p1">.user-chip:hover { border-color: var(--teal); background: var(--teal-light); }</p>
+<p class="p1">.user-chip.selected { border-color: var(--teal); background: var(--teal-light); }</p>
+<p class="p1">.user-chip-icon { font-size: 22px; margin-bottom: 6px; }</p>
+<p class="p1">.user-chip-label { font-size: 12px; font-weight: 600; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.5px; }</p>
+<p class="p1">.user-chip.selected .user-chip-label { color: var(--teal); }</p>
+<p class="p2"><br></p>
+<p class="p1">/* Form */</p>
+<p class="p1">.intake-form { background: white; border-radius: var(--radius-lg); border: 1px solid var(--paper-deep); padding: 32px; box-shadow: var(--shadow-sm); }</p>
+<p class="p2"><br></p>
+<p class="p1">.form-group { margin-bottom: 22px; }</p>
+<p class="p1">.form-label {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>display: block; font-size: 13px; font-weight: 600;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>color: var(--ink-soft); margin-bottom: 8px; letter-spacing: 0.3px;</p>
+<p class="p1">}</p>
+<p class="p1">.form-label span { font-weight: 400; color: var(--ink-muted); }</p>
+<p class="p1">.form-input {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>width: 100%; padding: 12px 14px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border: 1.5px solid var(--paper-deep);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border-radius: var(--radius-sm); font-size: 15px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-family: 'DM Sans', sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background: var(--paper); color: var(--ink);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>transition: border-color 0.15s, box-shadow 0.15s;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>outline: none;</p>
+<p class="p1">}</p>
+<p class="p1">.form-input:focus {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border-color: var(--teal);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>box-shadow: 0 0 0 3px rgba(13,122,110,0.12);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background: white;</p>
+<p class="p1">}</p>
+<p class="p1">.form-input::placeholder { color: var(--ink-muted); }</p>
+<p class="p2"><br></p>
+<p class="p1">.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }</p>
+<p class="p1">@media (max-width: 520px) { .form-row { grid-template-columns: 1fr; } }</p>
+<p class="p2"><br></p>
+<p class="p1">.form-hint { font-size: 12px; color: var(--ink-muted); margin-top: 5px; }</p>
+<p class="p2"><br></p>
+<p class="p1">.optional-toggle {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>display: flex; align-items: center; gap: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-size: 13px; color: var(--teal); cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>margin-bottom: 18px; font-weight: 500;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background: none; border: none; font-family: inherit;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>padding: 0;</p>
+<p class="p1">}</p>
+<p class="p1">.optional-toggle svg { transition: transform 0.2s; }</p>
+<p class="p1">.optional-toggle.open svg { transform: rotate(180deg); }</p>
+<p class="p2"><br></p>
+<p class="p1">.optional-fields { display: none; }</p>
+<p class="p1">.optional-fields.open { display: block; }</p>
+<p class="p2"><br></p>
+<p class="p1">.submit-btn {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>width: 100%; padding: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background: var(--teal); color: white;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border: none; border-radius: var(--radius-md);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-size: 16px; font-weight: 600; font-family: 'DM Sans', sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>cursor: pointer; transition: all 0.2s;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>display: flex; align-items: center; justify-content: center; gap: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>margin-top: 8px;</p>
+<p class="p1">}</p>
+<p class="p1">.submit-btn:hover { background: var(--teal-mid); transform: translateY(-1px); box-shadow: var(--shadow-md); }</p>
+<p class="p1">.submit-btn:active { transform: translateY(0); }</p>
+<p class="p2"><br></p>
+<p class="p1">.disclaimer {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>text-align: center; font-size: 12px; color: var(--ink-muted);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>margin-top: 20px; line-height: 1.5; max-width: 480px; margin-inline: auto;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p3"><span class="s1">/* </span>══<span class="s1"> SCREEN 2: LOADING </span>══════════════════════════<span class="s1"> */</span></p>
+<p class="p1">#screen-loading { padding: 80px 0; text-align: center; }</p>
+<p class="p2"><br></p>
+<p class="p1">.loading-bridge {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>width: 80px; height: 80px; margin: 0 auto 32px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border-radius: 20px; background: var(--teal-light);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>display: flex; align-items: center; justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>animation: breathe 2s ease-in-out infinite;</p>
+<p class="p1">}</p>
+<p class="p1">@keyframes breathe {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(13,122,110,0.2); }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>50% { transform: scale(1.05); box-shadow: 0 0 0 16px rgba(13,122,110,0); }</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">.loading-title { font-size: 28px; margin-bottom: 10px; color: var(--ink); }</p>
+<p class="p1">.loading-subtitle { font-size: 15px; color: var(--ink-muted); margin-bottom: 40px; }</p>
+<p class="p2"><br></p>
+<p class="p1">.loading-steps { max-width: 400px; margin: 0 auto; text-align: left; }</p>
+<p class="p1">.loading-step {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>display: flex; align-items: center; gap: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>padding: 12px 0; border-bottom: 1px solid var(--paper-deep);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>opacity: 0.3; transition: opacity 0.4s;</p>
+<p class="p1">}</p>
+<p class="p1">.loading-step.done { opacity: 1; }</p>
+<p class="p1">.loading-step.active { opacity: 1; }</p>
+<p class="p1">.step-icon {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>width: 28px; height: 28px; border-radius: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background: var(--paper-warm); flex-shrink: 0;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>display: flex; align-items: center; justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-size: 13px;</p>
+<p class="p1">}</p>
+<p class="p1">.loading-step.done .step-icon { background: var(--green-light); }</p>
+<p class="p1">.loading-step.active .step-icon { background: var(--teal-light); animation: spin 1.2s linear infinite; }</p>
+<p class="p1">@keyframes spin { to { transform: rotate(360deg); } }</p>
+<p class="p1">.step-text { font-size: 14px; color: var(--ink-soft); }</p>
+<p class="p1">.step-count { font-size: 13px; color: var(--teal); font-family: 'DM Mono', monospace; font-weight: 500; margin-left: auto; }</p>
+<p class="p2"><br></p>
+<p class="p3"><span class="s1">/* </span>══<span class="s1"> SCREEN 3: RESULTS </span>══════════════════════════<span class="s1"> */</span></p>
+<p class="p1">#screen-results { padding: 32px 0 80px; }</p>
+<p class="p2"><br></p>
+<p class="p1">.results-header {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>display: flex; align-items: flex-start; justify-content: space-between;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>gap: 16px; margin-bottom: 24px; flex-wrap: wrap;</p>
+<p class="p1">}</p>
+<p class="p1">.results-title { font-size: 28px; color: var(--ink); }</p>
+<p class="p1">.results-meta { font-size: 14px; color: var(--ink-muted); margin-top: 4px; }</p>
+<p class="p2"><br></p>
+<p class="p1">.results-actions { display: flex; gap: 8px; flex-shrink: 0; }</p>
+<p class="p1">.btn-outline {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>padding: 8px 16px; border-radius: var(--radius-sm);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border: 1.5px solid var(--paper-deep); background: white;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-size: 13px; font-weight: 500; color: var(--ink-soft);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>cursor: pointer; font-family: 'DM Sans', sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>display: flex; align-items: center; gap: 6px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>transition: all 0.15s;</p>
+<p class="p1">}</p>
+<p class="p1">.btn-outline:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-light); }</p>
+<p class="p2"><br></p>
+<p class="p1">.filters-row {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap;</p>
+<p class="p1">}</p>
+<p class="p1">.filter-chip {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>padding: 6px 14px; border-radius: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border: 1.5px solid var(--paper-deep); background: white;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-size: 12px; font-weight: 500; color: var(--ink-muted);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>cursor: pointer; transition: all 0.15s; font-family: 'DM Sans', sans-serif;</p>
+<p class="p1">}</p>
+<p class="p1">.filter-chip:hover { border-color: var(--teal); color: var(--teal); }</p>
+<p class="p1">.filter-chip.active { background: var(--teal); border-color: var(--teal); color: white; }</p>
+<p class="p2"><br></p>
+<p class="p1">/* Trial cards */</p>
+<p class="p1">.trials-list { display: flex; flex-direction: column; gap: 14px; }</p>
+<p class="p2"><br></p>
+<p class="p1">.trial-card {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background: white; border: 1.5px solid var(--paper-deep);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border-radius: var(--radius-lg); padding: 22px 24px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>cursor: pointer; transition: all 0.2s;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>box-shadow: var(--shadow-sm);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>position: relative; overflow: hidden;</p>
+<p class="p1">}</p>
+<p class="p1">.trial-card::before {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>content: ''; position: absolute; left: 0; top: 0; bottom: 0;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>width: 4px; background: var(--teal); opacity: 0;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>transition: opacity 0.2s;</p>
+<p class="p1">}</p>
+<p class="p1">.trial-card:hover { border-color: var(--teal); box-shadow: var(--shadow-md); transform: translateY(-1px); }</p>
+<p class="p1">.trial-card:hover::before { opacity: 1; }</p>
+<p class="p2"><br></p>
+<p class="p1">.trial-card-top {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;</p>
+<p class="p1">}</p>
+<p class="p1">.trial-card-title {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-family: 'Instrument Serif', serif;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-size: 18px; color: var(--ink); line-height: 1.3;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>flex: 1;</p>
+<p class="p1">}</p>
+<p class="p1">.match-score {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>flex-shrink: 0; font-family: 'DM Mono', monospace;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-size: 13px; font-weight: 500;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>padding: 4px 10px; border-radius: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background: var(--teal-light); color: var(--teal);</p>
+<p class="p1">}</p>
+<p class="p1">.match-score.high { background: var(--green-light); color: var(--green); }</p>
+<p class="p1">.match-score.med<span class="Apple-converted-space">  </span>{ background: var(--amber-light); color: var(--amber); }</p>
+<p class="p2"><br></p>
+<p class="p1">.trial-card-summary {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-size: 14px; color: var(--ink-soft); line-height: 1.6;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>margin-bottom: 14px;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">.trial-card-tags { display: flex; gap: 8px; flex-wrap: wrap; }</p>
+<p class="p1">.tag {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-size: 11px; font-weight: 600; letter-spacing: 0.4px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>text-transform: uppercase; padding: 3px 10px; border-radius: 4px;</p>
+<p class="p1">}</p>
+<p class="p1">.tag-phase<span class="Apple-converted-space">    </span>{ background: var(--blue-light);<span class="Apple-converted-space">  </span>color: var(--blue); }</p>
+<p class="p1">.tag-distance { background: var(--paper-warm);<span class="Apple-converted-space">  </span>color: var(--ink-muted); }</p>
+<p class="p1">.tag-type <span class="Apple-converted-space">    </span>{ background: var(--teal-light);<span class="Apple-converted-space">  </span>color: var(--teal); }</p>
+<p class="p1">.tag-status <span class="Apple-converted-space">  </span>{ background: var(--green-light); color: var(--green); }</p>
+<p class="p1">.tag-expanded { background: var(--amber-light); color: var(--amber); }</p>
+<p class="p2"><br></p>
+<p class="p1">.no-results {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>text-align: center; padding: 60px 20px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background: white; border-radius: var(--radius-lg);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border: 1px solid var(--paper-deep);</p>
+<p class="p1">}</p>
+<p class="p1">.no-results h3 { font-size: 22px; margin-bottom: 10px; color: var(--ink); }</p>
+<p class="p1">.no-results p<span class="Apple-converted-space">  </span>{ color: var(--ink-muted); font-size: 15px; }</p>
+<p class="p2"><br></p>
+<p class="p3"><span class="s1">/* </span>══<span class="s1"> SCREEN 4: DETAIL </span>═══════════════════════════<span class="s1"> */</span></p>
+<p class="p1">#screen-detail { padding: 28px 0 80px; }</p>
+<p class="p2"><br></p>
+<p class="p1">.back-btn {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>display: inline-flex; align-items: center; gap: 7px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-size: 14px; color: var(--ink-muted); margin-bottom: 24px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>cursor: pointer; background: none; border: none;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-family: 'DM Sans', sans-serif; padding: 0;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>transition: color 0.15s;</p>
+<p class="p1">}</p>
+<p class="p1">.back-btn:hover { color: var(--teal); }</p>
+<p class="p2"><br></p>
+<p class="p1">.detail-header {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background: white; border-radius: var(--radius-lg);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border: 1px solid var(--paper-deep);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>padding: 28px 28px 24px; margin-bottom: 16px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>box-shadow: var(--shadow-sm);</p>
+<p class="p1">}</p>
+<p class="p1">.detail-title {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-size: clamp(22px, 4vw, 30px); color: var(--ink);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>margin-bottom: 12px; line-height: 1.25;</p>
+<p class="p1">}</p>
+<p class="p1">.detail-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }</p>
+<p class="p1">.detail-lead {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-size: 16px; color: var(--ink-soft); line-height: 1.7;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>padding-top: 16px; border-top: 1px solid var(--paper-deep);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">.detail-section {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background: white; border-radius: var(--radius-lg);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border: 1px solid var(--paper-deep);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>padding: 24px 28px; margin-bottom: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>box-shadow: var(--shadow-sm);</p>
+<p class="p1">}</p>
+<p class="p1">.detail-section-title {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-size: 12px; font-weight: 700; letter-spacing: 1.2px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>text-transform: uppercase; color: var(--ink-muted);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>margin-bottom: 14px; display: flex; align-items: center; gap: 8px;</p>
+<p class="p1">}</p>
+<p class="p1">.detail-section-title svg { opacity: 0.5; }</p>
+<p class="p2"><br></p>
+<p class="p1">.detail-body { font-size: 15px; color: var(--ink-soft); line-height: 1.7; }</p>
+<p class="p1">.detail-body p { margin-bottom: 10px; }</p>
+<p class="p1">.detail-body ul { padding-left: 18px; }</p>
+<p class="p1">.detail-body li { margin-bottom: 6px; }</p>
+<p class="p1">.detail-body strong { color: var(--ink); font-weight: 600; }</p>
+<p class="p2"><br></p>
+<p class="p1">.eligibility-grid {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>display: grid; grid-template-columns: 1fr 1fr; gap: 12px;</p>
+<p class="p1">}</p>
+<p class="p1">@media (max-width: 520px) { .eligibility-grid { grid-template-columns: 1fr; } }</p>
+<p class="p2"><br></p>
+<p class="p1">.eligibility-item {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>padding: 14px; border-radius: var(--radius-sm);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background: var(--paper);</p>
+<p class="p1">}</p>
+<p class="p1">.eligibility-item.include { border-left: 3px solid var(--green); }</p>
+<p class="p1">.eligibility-item.exclude { border-left: 3px solid var(--red); }</p>
+<p class="p1">.eligibility-label {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-size: 10px; font-weight: 700; text-transform: uppercase;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>letter-spacing: 0.8px; margin-bottom: 6px;</p>
+<p class="p1">}</p>
+<p class="p1">.eligibility-item.include .eligibility-label { color: var(--green); }</p>
+<p class="p1">.eligibility-item.exclude .eligibility-label { color: var(--red); }</p>
+<p class="p1">.eligibility-item p { font-size: 13px; color: var(--ink-soft); line-height: 1.5; }</p>
+<p class="p2"><br></p>
+<p class="p1">.doctor-questions { list-style: none; }</p>
+<p class="p1">.doctor-questions li {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>display: flex; gap: 12px; padding: 12px 0;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border-bottom: 1px solid var(--paper-deep); font-size: 14px; color: var(--ink-soft);</p>
+<p class="p1">}</p>
+<p class="p1">.doctor-questions li:last-child { border-bottom: none; }</p>
+<p class="p1">.q-num {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background: var(--teal-light); color: var(--teal);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-size: 11px; font-weight: 700; font-family: 'DM Mono', monospace;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>display: flex; align-items: center; justify-content: center; margin-top: 1px;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">.detail-cta {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 4px;</p>
+<p class="p1">}</p>
+<p class="p1">@media (max-width: 480px) { .detail-cta { grid-template-columns: 1fr; } }</p>
+<p class="p2"><br></p>
+<p class="p1">.btn-primary {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>padding: 14px 20px; border-radius: var(--radius-md);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background: var(--teal); color: white; border: none;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-size: 15px; font-weight: 600; font-family: 'DM Sans', sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>transition: all 0.2s; text-align: center;</p>
+<p class="p1">}</p>
+<p class="p1">.btn-primary:hover { background: var(--teal-mid); box-shadow: var(--shadow-md); }</p>
+<p class="p1">.btn-secondary {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>padding: 14px 20px; border-radius: var(--radius-md);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background: white; color: var(--ink-soft);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border: 1.5px solid var(--paper-deep);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-size: 15px; font-weight: 500; font-family: 'DM Sans', sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>transition: all 0.2s;</p>
+<p class="p1">}</p>
+<p class="p1">.btn-secondary:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-light); }</p>
+<p class="p2"><br></p>
+<p class="p1">/* ── LOADING SKELETON ─────────────────────────── */</p>
+<p class="p1">.skeleton {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background: linear-gradient(90deg, var(--paper-warm) 25%, var(--paper-deep) 50%, var(--paper-warm) 75%);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background-size: 200% 100%;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>animation: shimmer 1.5s infinite;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border-radius: 6px;</p>
+<p class="p1">}</p>
+<p class="p1">@keyframes shimmer { to { background-position: -200% 0; } }</p>
+<p class="p2"><br></p>
+<p class="p1">/* ── TOAST ────────────────────────────────────── */</p>
+<p class="p1">.toast {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background: var(--ink); color: white; padding: 12px 20px; border-radius: 10px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-size: 14px; font-weight: 500; z-index: 1000;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>transition: transform 0.3s cubic-bezier(.34,1.56,.64,1);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>white-space: nowrap;</p>
+<p class="p1">}</p>
+<p class="p1">.toast.show { transform: translateX(-50%) translateY(0); }</p>
+<p class="p2"><br></p>
+<p class="p1">/* ── ERROR STATE ──────────────────────────────── */</p>
+<p class="p1">.error-card {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background: var(--red-light); border: 1px solid rgba(196,40,13,0.2);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border-radius: var(--radius-md); padding: 16px 20px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-size: 14px; color: var(--red); margin-top: 16px; line-height: 1.5;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">/* ── RESPONSIVE ───────────────────────────────── */</p>
+<p class="p1">@media (max-width: 600px) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.user-type-row { grid-template-columns: 1fr; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.intake-form { padding: 20px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.results-header { flex-direction: column; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.detail-header { padding: 20px; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.detail-section { padding: 18px 20px; }</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">/* ── PRINT ────────────────────────────────────── */</p>
+<p class="p1">@media print {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>header, .back-btn, .detail-cta, .filters-row, .results-actions { display: none !important; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.trial-card { break-inside: avoid; }</p>
+<p class="p1">}</p>
+<p class="p1">&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;header&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="header-inner"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;a class="logo" href="#" onclick="showScreen('intake');return false;"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="logo-mark"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;path d="M4 12h4M16 12h4M12 4v4M12 16v4M7 7l2 2M15 15l2 2M7 17l2-2M15 9l2-2"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;circle cx="12" cy="12" r="3"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>TrialBridge</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;span class="logo-sub"&gt;Clinical Trial Finder&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="spacer"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;span class="api-status" id="api-status"&gt;● API ready&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p1">&lt;/header&gt;</p>
+<p class="p2"><br></p>
+<p class="p3"><span class="s1">&lt;!-- </span>══<span class="s1"> SCREEN 1: INTAKE </span>══════════════════════════<span class="s1"> --&gt;</span></p>
+<p class="p1">&lt;div id="screen-intake" class="screen active"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="intake-hero"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;h1&gt;Find clinical trials &lt;em&gt;matched&lt;/em&gt; to you&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;Search 400,000+ registered studies on ClinicalTrials.gov with plain-language explanations — no medical jargon required.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Who are you --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div style="margin-bottom:16px"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="form-label" style="margin-bottom:10px"&gt;I am searching as a&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="user-type-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="user-chip selected" data-type="patient" onclick="selectUserType(this)"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="user-chip-icon"&gt;<span class="s2">🙋</span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="user-chip-label"&gt;Patient&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="user-chip" data-type="caregiver" onclick="selectUserType(this)"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="user-chip-icon"&gt;<span class="s2">🤝</span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="user-chip-label"&gt;Caregiver&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="user-chip" data-type="professional" onclick="selectUserType(this)"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="user-chip-icon"&gt;<span class="s2">🏥</span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="user-chip-label"&gt;Professional&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="intake-form"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;label class="form-label" for="condition"&gt;Condition or diagnosis &lt;span&gt;(required)&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input class="form-input" id="condition" type="text"</p>
+<p class="p1"><span class="Apple-converted-space">               </span>placeholder="e.g. Type 2 diabetes, breast cancer, Parkinson's disease…"</p>
+<p class="p1"><span class="Apple-converted-space">               </span>autocomplete="off"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="form-hint"&gt;Be as specific as you can — more detail gives better matches&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="form-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;label class="form-label" for="age"&gt;Age &lt;span&gt;(required)&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input class="form-input" id="age" type="number" min="1" max="120" placeholder="e.g. 54"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;label class="form-label" for="zip"&gt;ZIP code &lt;span&gt;(required)&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input class="form-input" id="zip" type="text" maxlength="5" placeholder="e.g. 10001"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="form-hint"&gt;Used to find nearby trials&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;!-- Optional fields toggle --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="optional-toggle" id="optional-toggle" onclick="toggleOptional()"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"&gt;&lt;path d="M6 9l6 6 6-6"/&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Add more details (improves matching)</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/button&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="optional-fields" id="optional-fields"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="form-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="form-label" for="sex"&gt;Biological sex &lt;span&gt;(optional)&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;select class="form-input" id="sex"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value=""&gt;Any&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="MALE"&gt;Male&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="FEMALE"&gt;Female&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="form-label" for="phase"&gt;Trial phase &lt;span&gt;(optional)&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;select class="form-input" id="phase"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value=""&gt;Any phase&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="PHASE1"&gt;Phase 1 (Safety)&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="PHASE2"&gt;Phase 2 (Efficacy)&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="PHASE3"&gt;Phase 3 (Confirmation)&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="PHASE4"&gt;Phase 4 (Post-market)&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;label class="form-label" for="other-conditions"&gt;Other conditions &lt;span&gt;(optional)&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input class="form-input" id="other-conditions" type="text"</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>placeholder="e.g. hypertension, kidney disease…"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;label class="form-label" for="prior-treatments"&gt;Prior treatments tried &lt;span&gt;(optional)&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;input class="form-input" id="prior-treatments" type="text"</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>placeholder="e.g. metformin, chemotherapy, surgery…"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="submit-btn" onclick="startSearch()"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"&gt;&lt;circle cx="11" cy="11" r="8"/&gt;&lt;path d="M21 21l-4.35-4.35"/&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Search Clinical Trials</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/button&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div id="intake-error"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;p class="disclaimer"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>TrialBridge helps you discover and understand clinical trials. It does not provide medical advice.</p>
+<p class="p1"><span class="Apple-converted-space">      </span>Always discuss trial participation with your healthcare provider.</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;!-- <span class="s3">══</span> SCREEN 2: LOADING <span class="s3">══════════════════════════</span> --&gt;</p>
+<p class="p1">&lt;div id="screen-loading" class="screen"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="loading-bridge"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#0d7a6e" stroke-width="2" stroke-linecap="round"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;path d="M4 12h4M16 12h4M12 4v4M12 16v4M7 7l2 2M15 15l2 2M7 17l2-2M15 9l2-2"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;circle cx="12" cy="12" r="3"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h2 class="loading-title serif"&gt;Searching for your trials…&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;p class="loading-subtitle" id="loading-condition"&gt;Finding trials for your condition&lt;/p&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="loading-steps"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="loading-step" id="step-1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="step-icon"&gt;<span class="s2">🔍</span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="step-text"&gt;Searching ClinicalTrials.gov&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="step-count" id="step-1-count"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="loading-step" id="step-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="step-icon"&gt;<span class="s2">📍</span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="step-text"&gt;Filtering by your location&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="step-count" id="step-2-count"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="loading-step" id="step-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="step-icon"&gt;<span class="s2">🧬</span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="step-text"&gt;Scoring eligibility matches&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="step-count" id="step-3-count"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="loading-step" id="step-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="step-icon"&gt;<span class="s2">✍️</span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="step-text"&gt;Writing plain-language summaries&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="step-count" id="step-4-count"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;!-- <span class="s3">══</span> SCREEN 3: RESULTS <span class="s3">══════════════════════════</span> --&gt;</p>
+<p class="p1">&lt;div id="screen-results" class="screen"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="container-wide"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="results-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2 class="results-title serif" id="results-title"&gt;Clinical trials found&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="results-meta" id="results-meta"&gt;&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="results-actions"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="btn-outline" onclick="exportSummary()"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"&gt;&lt;path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>Export</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="btn-outline" onclick="showScreen('intake')"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"&gt;&lt;path d="M11 17l-5-5 5-5M18 17l-5-5 5-5"/&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>New search</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="filters-row" id="filters-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="filter-chip active" onclick="filterResults('all', this)"&gt;All trials&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="filter-chip" onclick="filterResults('phase3', this)"&gt;Phase 3&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="filter-chip" onclick="filterResults('nearby', this)"&gt;Near me (&amp;lt;50mi)&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="filter-chip" onclick="filterResults('high-match', this)"&gt;High match&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="trials-list" id="trials-list"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p3"><span class="s1">&lt;!-- </span>══<span class="s1"> SCREEN 4: DETAIL </span>═══════════════════════════<span class="s1"> --&gt;</span></p>
+<p class="p1">&lt;div id="screen-detail" class="screen"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="back-btn" onclick="showScreen('results')"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"&gt;&lt;path d="M19 12H5M12 19l-7-7 7-7"/&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>Back to results</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="detail-content"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;!-- Toast --&gt;</p>
+<p class="p1">&lt;div class="toast" id="toast"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;script&gt;</p>
+<p class="p3"><span class="s1">// </span>═══════════════════════════════════════════════</p>
+<p class="p1">// CONFIG — paste your Gemini API key here</p>
+<p class="p3"><span class="s1">// </span>═══════════════════════════════════════════════</p>
+<p class="p1">const GEMINI_API_KEY = 'YOUR_GEMINI_API_KEY';</p>
+<p class="p1">const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;</p>
+<p class="p1">const CT_BASE = 'https://clinicaltrials.gov/api/v2/studies';</p>
+<p class="p2"><br></p>
+<p class="p3"><span class="s1">// </span>═══════════════════════════════════════════════</p>
+<p class="p1">// STATE</p>
+<p class="p3"><span class="s1">// </span>═══════════════════════════════════════════════</p>
+<p class="p1">let userType <span class="Apple-converted-space">    </span>= 'patient';</p>
+<p class="p1">let searchQuery<span class="Apple-converted-space">  </span>= {};</p>
+<p class="p1">let allTrials<span class="Apple-converted-space">    </span>= [];</p>
+<p class="p1">let filteredTrials = [];</p>
+<p class="p1">let currentTrial = null;</p>
+<p class="p1">let zipCoords<span class="Apple-converted-space">    </span>= null; // {lat, lng} from ZIP</p>
+<p class="p2"><br></p>
+<p class="p3"><span class="s1">// </span>═══════════════════════════════════════════════</p>
+<p class="p1">// UI HELPERS</p>
+<p class="p3"><span class="s1">// </span>═══════════════════════════════════════════════</p>
+<p class="p1">function showScreen(id) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.querySelectorAll('.screen').forEach(s =&gt; s.classList.remove('active'));</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('screen-' + id).classList.add('active');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>window.scrollTo(0, 0);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function showToast(msg, duration = 2800) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const t = document.getElementById('toast');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>t.textContent = msg;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>t.classList.add('show');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>setTimeout(() =&gt; t.classList.remove('show'), duration);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function selectUserType(el) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.querySelectorAll('.user-chip').forEach(c =&gt; c.classList.remove('selected'));</p>
+<p class="p1"><span class="Apple-converted-space">  </span>el.classList.add('selected');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>userType = el.dataset.type;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function toggleOptional() {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const btn = document.getElementById('optional-toggle');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const fields = document.getElementById('optional-fields');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>btn.classList.toggle('open');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>fields.classList.toggle('open');</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function setLoadingStep(step, state, count = '') {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const el = document.getElementById(`step-${step}`);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const countEl = document.getElementById(`step-${step}-count`);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>el.classList.remove('done', 'active');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (state) el.classList.add(state);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (countEl &amp;&amp; count) countEl.textContent = count;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p3"><span class="s1">// </span>═══════════════════════════════════════════════</p>
+<p class="p1">// ZIP <span class="s4">→</span> approximate coords (US ZIP centroid lookup via free API)</p>
+<p class="p3"><span class="s1">// </span>═══════════════════════════════════════════════</p>
+<p class="p1">async function zipToCoords(zip) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const r = await fetch(`https://api.zippopotam.us/us/${zip}`);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (!r.ok) return null;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const d = await r.json();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>return { lat: parseFloat(d.places[0].latitude), lng: parseFloat(d.places[0].longitude), city: d.places[0]['place name'], state: d.places[0]['state abbreviation'] };</p>
+<p class="p1"><span class="Apple-converted-space">  </span>} catch { return null; }</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function haversineKm(lat1, lng1, lat2, lng2) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const R = 6371;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const dLat = (lat2 - lat1) * Math.PI / 180;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const dLng = (lng2 - lng1) * Math.PI / 180;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLng/2)**2;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));</p>
+<p class="p1">}</p>
+<p class="p1">function kmToMiles(km) { return (km * 0.621371).toFixed(0); }</p>
+<p class="p2"><br></p>
+<p class="p3"><span class="s1">// </span>═══════════════════════════════════════════════</p>
+<p class="p1">// CLINICALTRIALS.GOV API v2</p>
+<p class="p3"><span class="s1">// </span>═══════════════════════════════════════════════</p>
+<p class="p1">async function fetchTrials(condition, age, sex, phase) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const params = new URLSearchParams({</p>
+<p class="p1"><span class="Apple-converted-space">    </span>'query.cond': condition,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>'filter.overallStatus': 'RECRUITING,ACTIVE_NOT_RECRUITING,ENROLLING_BY_INVITATION',</p>
+<p class="p1"><span class="Apple-converted-space">    </span>'filter.advanced': `AREA[MinimumAge]RANGE[MIN, ${age} years] AND AREA[MaximumAge]RANGE[${age} years, MAX]`,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>'fields': 'NCTId,BriefTitle,BriefSummary,DetailedDescription,Phase,LeadSponsorName,StartDate,CompletionDate,Condition,EligibilityCriteria,HealthyVolunteers,Gender,MinimumAge,MaximumAge,LocationFacility,LocationCity,LocationState,LocationZip,LocationCountry,LocationGeoPoint,OverallStatus,StudyType,InterventionName,InterventionType',</p>
+<p class="p1"><span class="Apple-converted-space">    </span>'pageSize': '30',</p>
+<p class="p1"><span class="Apple-converted-space">    </span>'countTotal': 'true',</p>
+<p class="p1"><span class="Apple-converted-space">    </span>'sort': 'LastUpdatePostDate:desc'</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (sex &amp;&amp; sex !== '') params.set('filter.advanced', params.get('filter.advanced') + ` AND AREA[Gender](${sex} OR ALL)`);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (phase) params.set('filter.advanced', params.get('filter.advanced') + ` AND AREA[Phase]${phase}`);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>const r = await fetch(`${CT_BASE}?${params}`);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (!r.ok) throw new Error(`ClinicalTrials API error: ${r.status}`);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const d = await r.json();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>return { studies: d.studies || [], total: d.totalCount || 0 };</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p3"><span class="s1">// </span>═══════════════════════════════════════════════</p>
+<p class="p1">// SCORING &amp; ENRICHMENT</p>
+<p class="p3"><span class="s1">// </span>═══════════════════════════════════════════════</p>
+<p class="p1">function scoreAndEnrichTrials(studies, userCoords, age) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>return studies.map(study =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const p = study.protocolSection || {};</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const id = study.protocolSection?.identificationModule || {};</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const status = study.protocolSection?.statusModule || {};</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const desc = study.protocolSection?.descriptionModule || {};</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const elig = study.protocolSection?.eligibilityModule || {};</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const locs = study.protocolSection?.contactsLocationsModule?.locations || [];</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const design = study.protocolSection?.designModule || {};</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const arms = study.protocolSection?.armsInterventionsModule?.interventions || [];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Find closest location</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let closestDist = Infinity;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let closestLoc = null;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>locs.forEach(loc =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (loc.geoPoint &amp;&amp; userCoords) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const d = haversineKm(userCoords.lat, userCoords.lng, loc.geoPoint.lat, loc.geoPoint.lon);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (d &lt; closestDist) { closestDist = d; closestLoc = loc; }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Score 0–100</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let score = 50;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (closestDist &lt; 80)<span class="Apple-converted-space">  </span>score += 25;<span class="Apple-converted-space">  </span>// &lt; 50 miles</p>
+<p class="p1"><span class="Apple-converted-space">    </span>else if (closestDist &lt; 160) score += 15;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>else if (closestDist &lt; 480) score += 5;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const phase = (design.phases || [])[0] || '';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (phase === 'PHASE3') score += 15;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (phase === 'PHASE2') score += 8;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const recStatus = status.overallStatus || '';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (recStatus === 'RECRUITING') score += 10;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (locs.length &gt; 5) score += 5;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>score = Math.min(99, score);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>return {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>nctId: id.nctId || '',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>title: id.briefTitle || 'Untitled Study',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>summary: desc.briefSummary || '',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>detailedDesc: desc.detailedDescription || '',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>phase,</p>
+<p class="p1"><span class="Apple-converted-space">      </span>status: recStatus,</p>
+<p class="p1"><span class="Apple-converted-space">      </span>sponsor: p.sponsorCollaboratorsModule?.leadSponsor?.name || '',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>startDate: status.startDateStruct?.date || '',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>completionDate: status.completionDateStruct?.date || '',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>eligibility: elig.eligibilityCriteria || '',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>healthyVolunteers: elig.healthyVolunteers || '',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>gender: elig.sex || 'ALL',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>minAge: elig.minimumAge || '',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>maxAge: elig.maximumAge || '',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>locations: locs,</p>
+<p class="p1"><span class="Apple-converted-space">      </span>closestLoc,</p>
+<p class="p1"><span class="Apple-converted-space">      </span>closestDistMi: closestDist === Infinity ? null : parseFloat(kmToMiles(closestDist)),</p>
+<p class="p1"><span class="Apple-converted-space">      </span>interventions: arms,</p>
+<p class="p1"><span class="Apple-converted-space">      </span>studyType: design.studyType || '',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>score,</p>
+<p class="p1"><span class="Apple-converted-space">      </span>aiSummary: null,</p>
+<p class="p1"><span class="Apple-converted-space">      </span>aiEligibility: null,</p>
+<p class="p1"><span class="Apple-converted-space">      </span>aiDoctorQs: null,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>};</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}).sort((a, b) =&gt; b.score - a.score);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p3"><span class="s1">// </span>═══════════════════════════════════════════════</p>
+<p class="p1">// GEMINI AI — plain language rewriting</p>
+<p class="p3"><span class="s1">// </span>═══════════════════════════════════════════════</p>
+<p class="p1">const TONE_PROMPTS = {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>patient: "You are a compassionate health educator explaining things to a patient who has no medical background. Use warm, simple, hopeful language. Avoid all jargon. Write as if you're a knowledgeable friend.",</p>
+<p class="p1"><span class="Apple-converted-space">  </span>caregiver: "You are a practical medical liaison explaining things to a family caregiver. Be efficient, structured, and clear. Include relevant practical details. Avoid excessive jargon but don't oversimplify.",</p>
+<p class="p1"><span class="Apple-converted-space">  </span>professional: "You are a clinical research coordinator briefing a healthcare professional. Be precise and thorough. Use standard clinical terminology where appropriate."</p>
+<p class="p1">};</p>
+<p class="p2"><br></p>
+<p class="p1">async function callGemini(prompt) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (GEMINI_API_KEY === 'AIzaSyASsDxbWHxDTiQSj36blHAs1DJr3zxbA3k') {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Demo mode — return placeholder</p>
+<p class="p1"><span class="Apple-converted-space">    </span>return '[AI summary unavailable — add your Gemini API key to enable plain-language explanations]';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const body = {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>contents: [{ parts: [{ text: prompt }] }],</p>
+<p class="p1"><span class="Apple-converted-space">    </span>generationConfig: { temperature: 0.4, maxOutputTokens: 600 }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>};</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const r = await fetch(GEMINI_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (!r.ok) throw new Error('Gemini API error: ' + r.status);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const d = await r.json();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>return d.candidates?.[0]?.content?.parts?.[0]?.text || '';</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">async function enrichTrialWithAI(trial) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const tone = TONE_PROMPTS[userType];</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const summaryPrompt = `${tone}</p>
+<p class="p2"><br></p>
+<p class="p1">Explain this clinical trial in 2–3 sentences. Focus on: what they are studying, what it means for someone with this condition, and what participation broadly involves.</p>
+<p class="p2"><br></p>
+<p class="p1">Trial title: ${trial.title}</p>
+<p class="p1">Summary: ${trial.summary}</p>
+<p class="p1">Study type: ${trial.studyType}</p>
+<p class="p1">Interventions: ${trial.interventions.map(i =&gt; i.name).join(', ')}</p>
+<p class="p2"><br></p>
+<p class="p1">Write only the explanation, no preamble.`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>const eligPrompt = `${tone}</p>
+<p class="p2"><br></p>
+<p class="p1">Take this clinical trial eligibility criteria and rewrite it clearly:</p>
+<p class="p1">1. WHO CAN JOIN: list the key requirements to participate (2–4 bullet points max)</p>
+<p class="p1">2. WHO CANNOT JOIN: list the main exclusion reasons (2–4 bullet points max)</p>
+<p class="p2"><br></p>
+<p class="p1">Keep each bullet to one clear sentence. No medical jargon.</p>
+<p class="p2"><br></p>
+<p class="p1">Eligibility criteria:</p>
+<p class="p1">${trial.eligibility.slice(0, 2000)}</p>
+<p class="p2"><br></p>
+<p class="p1">Return in this exact format:</p>
+<p class="p1">WHO CAN JOIN:</p>
+<p class="p1">• [criterion]</p>
+<p class="p1">WHO CANNOT JOIN:</p>
+<p class="p1">• [criterion]`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>const doctorPrompt = `${tone}</p>
+<p class="p2"><br></p>
+<p class="p1">A ${userType} found this clinical trial and wants to discuss it with their doctor. Generate 4 specific, practical questions they should ask. Make them concrete and directly relevant to this trial.</p>
+<p class="p2"><br></p>
+<p class="p1">Trial: ${trial.title}</p>
+<p class="p1">What it studies: ${trial.summary.slice(0, 300)}</p>
+<p class="p2"><br></p>
+<p class="p1">Return only a numbered list of 4 questions, nothing else.`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const [summary, eligibility, doctorQs] = await Promise.all([</p>
+<p class="p1"><span class="Apple-converted-space">      </span>callGemini(summaryPrompt),</p>
+<p class="p1"><span class="Apple-converted-space">      </span>callGemini(eligPrompt),</p>
+<p class="p1"><span class="Apple-converted-space">      </span>callGemini(doctorPrompt)</p>
+<p class="p1"><span class="Apple-converted-space">    </span>]);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>trial.aiSummary<span class="Apple-converted-space">    </span>= summary;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>trial.aiEligibility = eligibility;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>trial.aiDoctorQs <span class="Apple-converted-space">  </span>= doctorQs;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>} catch (e) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>trial.aiSummary = trial.summary.slice(0, 240) + '…';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>trial.aiEligibility = trial.eligibility.slice(0, 400);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>trial.aiDoctorQs = '1. Is this trial appropriate for my situation?\n2. What does participation involve day-to-day?\n3. What are the potential risks?\n4. How does this compare to standard treatment?';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>return trial;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p3"><span class="s1">// </span>═══════════════════════════════════════════════</p>
+<p class="p1">// MAIN SEARCH FLOW</p>
+<p class="p3"><span class="s1">// </span>═══════════════════════════════════════════════</p>
+<p class="p1">async function startSearch() {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const condition = document.getElementById('condition').value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const age <span class="Apple-converted-space">      </span>= parseInt(document.getElementById('age').value);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const zip <span class="Apple-converted-space">      </span>= document.getElementById('zip').value.trim();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const sex <span class="Apple-converted-space">      </span>= document.getElementById('sex')?.value || '';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const phase <span class="Apple-converted-space">    </span>= document.getElementById('phase')?.value || '';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>// Validate</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const errEl = document.getElementById('intake-error');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>errEl.innerHTML = '';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (!condition) { errEl.innerHTML = '&lt;div class="error-card"&gt;Please enter your condition or diagnosis.&lt;/div&gt;'; return; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (!age || age &lt; 1 || age &gt; 120) { errEl.innerHTML = '&lt;div class="error-card"&gt;Please enter a valid age.&lt;/div&gt;'; return; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (!zip || !/^\d{5}$/.test(zip)) { errEl.innerHTML = '&lt;div class="error-card"&gt;Please enter a valid 5-digit US ZIP code.&lt;/div&gt;'; return; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>searchQuery = { condition, age, zip, sex, phase };</p>
+<p class="p1"><span class="Apple-converted-space">  </span>showScreen('loading');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('loading-condition').textContent = `Finding trials for "${condition}"`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Step 1 — resolve ZIP</p>
+<p class="p1"><span class="Apple-converted-space">    </span>setLoadingStep(1, 'active');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>zipCoords = await zipToCoords(zip);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const locationLabel = zipCoords ? `${zipCoords.city}, ${zipCoords.state}` : zip;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Step 2 — fetch from API</p>
+<p class="p1"><span class="Apple-converted-space">    </span>setLoadingStep(1, 'done', '');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>setLoadingStep(2, 'active');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const { studies, total } = await fetchTrials(condition, age, sex, phase);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>setLoadingStep(2, 'done', `${total.toLocaleString()} found`);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Step 3 — score + filter</p>
+<p class="p1"><span class="Apple-converted-space">    </span>setLoadingStep(3, 'active');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const enriched = scoreAndEnrichTrials(studies, zipCoords, age);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>allTrials = enriched;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>filteredTrials = [...allTrials];</p>
+<p class="p1"><span class="Apple-converted-space">    </span>setLoadingStep(3, 'done', `${enriched.length} matched`);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Step 4 — AI summaries for top 5 results</p>
+<p class="p1"><span class="Apple-converted-space">    </span>setLoadingStep(4, 'active');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const topFive = enriched.slice(0, 5);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>await Promise.all(topFive.map(t =&gt; enrichTrialWithAI(t)));</p>
+<p class="p1"><span class="Apple-converted-space">    </span>setLoadingStep(4, 'done', `${topFive.length} explained`);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Show results</p>
+<p class="p1"><span class="Apple-converted-space">    </span>renderResults(locationLabel);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>showScreen('results');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>} catch (err) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>console.error(err);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>showScreen('intake');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('intake-error').innerHTML = `&lt;div class="error-card"&gt;Search failed: ${err.message}. Please check your connection and try again.&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p3"><span class="s1">// </span>═══════════════════════════════════════════════</p>
+<p class="p1">// RENDER RESULTS</p>
+<p class="p3"><span class="s1">// </span>═══════════════════════════════════════════════</p>
+<p class="p1">function phaseLabel(phase) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const map = { PHASE1:'Phase 1', PHASE2:'Phase 2', PHASE3:'Phase 3', PHASE4:'Phase 4', 'EARLY_PHASE1':'Early Phase 1', NA:'N/A' };</p>
+<p class="p1"><span class="Apple-converted-space">  </span>return map[phase] || phase || 'N/A';</p>
+<p class="p1">}</p>
+<p class="p1">function statusLabel(s) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (s === 'RECRUITING') return { label: 'Recruiting', cls: 'tag-status' };</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (s === 'ACTIVE_NOT_RECRUITING') return { label: 'Active', cls: 'tag-expanded' };</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (s === 'ENROLLING_BY_INVITATION') return { label: 'By Invitation', cls: 'tag-expanded' };</p>
+<p class="p1"><span class="Apple-converted-space">  </span>return { label: s || 'Unknown', cls: 'tag-type' };</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function renderResults(locationLabel) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const title = document.getElementById('results-title');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const meta<span class="Apple-converted-space">  </span>= document.getElementById('results-meta');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>title.textContent = `${filteredTrials.length} trial${filteredTrials.length !== 1 ? 's' : ''} found`;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>meta.textContent<span class="Apple-converted-space">  </span>= `For "${searchQuery.condition}" · Age ${searchQuery.age} · Near ${locationLabel}`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>const list = document.getElementById('trials-list');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (!filteredTrials.length) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>list.innerHTML = `&lt;div class="no-results"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;h3&gt;No trials found&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;p&gt;Try broadening your search — use a more general condition name, or remove the phase filter.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>list.innerHTML = filteredTrials.map((t, i) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const st = statusLabel(t.status);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const matchCls = t.score &gt;= 80 ? 'high' : t.score &gt;= 60 ? '' : 'med';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const matchLbl = t.score &gt;= 80 ? '<span class="s3">★</span> Strong match' : t.score &gt;= 60 ? '<span class="s4">✓</span> Good match' : '~ Possible match';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const distLabel = t.closestDistMi !== null ? `${t.closestDistMi} mi away` : 'Distance unknown';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const summary = t.aiSummary || t.summary.slice(0, 220) + (t.summary.length &gt; 220 ? '…' : '');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>return `&lt;div class="trial-card" onclick="openDetail(${i})"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="trial-card-top"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="trial-card-title"&gt;${escHtml(t.title)}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="match-score ${matchCls}"&gt;${matchLbl}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="trial-card-summary"&gt;${escHtml(summary)}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="trial-card-tags"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="tag tag-phase"&gt;${phaseLabel(t.phase)}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="tag ${st.cls}"&gt;${st.label}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="tag tag-distance"&gt;<span class="s2">📍</span> ${distLabel}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>${t.studyType === 'INTERVENTIONAL' ? '&lt;span class="tag tag-type"&gt;Interventional&lt;/span&gt;' : ''}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>${t.healthyVolunteers === 'Yes' ? '&lt;span class="tag tag-type"&gt;Healthy volunteers OK&lt;/span&gt;' : ''}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;`;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}).join('');</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function filterResults(type, btn) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.querySelectorAll('.filter-chip').forEach(c =&gt; c.classList.remove('active'));</p>
+<p class="p1"><span class="Apple-converted-space">  </span>btn.classList.add('active');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (type === 'all')<span class="Apple-converted-space">        </span>filteredTrials = [...allTrials];</p>
+<p class="p1"><span class="Apple-converted-space">  </span>else if (type === 'phase3') filteredTrials = allTrials.filter(t =&gt; t.phase === 'PHASE3');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>else if (type === 'nearby') filteredTrials = allTrials.filter(t =&gt; t.closestDistMi !== null &amp;&amp; t.closestDistMi &lt;= 50);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>else if (type === 'high-match') filteredTrials = allTrials.filter(t =&gt; t.score &gt;= 75);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>renderResults(searchQuery.zip);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p3"><span class="s1">// </span>═══════════════════════════════════════════════</p>
+<p class="p1">// RENDER DETAIL</p>
+<p class="p3"><span class="s1">// </span>═══════════════════════════════════════════════</p>
+<p class="p1">async function openDetail(idx) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>currentTrial = filteredTrials[idx];</p>
+<p class="p1"><span class="Apple-converted-space">  </span>showScreen('detail');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>// If AI not yet loaded for this trial, fetch it</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (!currentTrial.aiSummary) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>renderDetailSkeleton();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>await enrichTrialWithAI(currentTrial);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>renderDetail(currentTrial);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function renderDetailSkeleton() {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('detail-content').innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="detail-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="skeleton" style="height:32px;width:80%;margin-bottom:12px"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="skeleton" style="height:32px;width:55%;margin-bottom:16px"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div style="display:flex;gap:8px;margin-bottom:16px"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="skeleton" style="height:22px;width:70px"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="skeleton" style="height:22px;width:90px"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="skeleton" style="height:80px;width:100%;margin-top:16px"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;`;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function parseEligibilityAI(raw) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (!raw) return { include: [], exclude: [] };</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const includeMatch = raw.match(/WHO CAN JOIN[:\s]*([\s\S]*?)(?=WHO CANNOT JOIN|$)/i);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const excludeMatch = raw.match(/WHO CANNOT JOIN[:\s]*([\s\S]*?)$/i);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const parseBullets = str =&gt; (str || '').split('\n').map(l =&gt; l.replace(/^[•\-\*\d\.]+\s*/, '').trim()).filter(Boolean);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>return {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>include: parseBullets(includeMatch?.[1] || ''),</p>
+<p class="p1"><span class="Apple-converted-space">    </span>exclude: parseBullets(excludeMatch?.[1] || '')</p>
+<p class="p1"><span class="Apple-converted-space">  </span>};</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function parseDoctorQs(raw) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (!raw) return [];</p>
+<p class="p1"><span class="Apple-converted-space">  </span>return raw.split('\n').map(l =&gt; l.replace(/^\d+[\.\)]\s*/, '').trim()).filter(Boolean).slice(0, 4);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function renderDetail(t) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const st = statusLabel(t.status);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const elig = parseEligibilityAI(t.aiEligibility);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const dqs<span class="Apple-converted-space">  </span>= parseDoctorQs(t.aiDoctorQs);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const distLabel = t.closestDistMi !== null ? `${t.closestDistMi} miles from your ZIP` : '';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const locLabel<span class="Apple-converted-space">  </span>= t.closestLoc ? `${t.closestLoc.city || ''}, ${t.closestLoc.state || ''}` : '';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.getElementById('detail-content').innerHTML = `</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="detail-header"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;h1 class="detail-title"&gt;${escHtml(t.title)}&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="detail-tags"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="tag tag-phase"&gt;${phaseLabel(t.phase)}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;span class="tag ${st.cls}"&gt;${st.label}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>${distLabel ? `&lt;span class="tag tag-distance"&gt;<span class="s2">📍</span> ${distLabel}&lt;/span&gt;` : ''}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>${t.studyType === 'INTERVENTIONAL' ? '&lt;span class="tag tag-type"&gt;Interventional&lt;/span&gt;' : ''}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;p class="detail-lead"&gt;${escHtml(t.aiSummary || t.summary)}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>${(t.interventions.length &gt; 0) ? `</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="detail-section"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="detail-section-title"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"&gt;&lt;path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>What's being studied</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="detail-body"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;ul&gt;${t.interventions.map(i =&gt; `&lt;li&gt;&lt;strong&gt;${escHtml(i.name)}&lt;/strong&gt;${i.type ? ` &lt;span style="color:var(--ink-muted);font-size:13px"&gt;(${i.type.toLowerCase()})&lt;/span&gt;` : ''}&lt;/li&gt;`).join('')}&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;` : ''}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="detail-section"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="detail-section-title"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"&gt;&lt;circle cx="12" cy="8" r="4"/&gt;&lt;path d="M20 21a8 8 0 1 0-16 0"/&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Who can participate</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>${elig.include.length || elig.exclude.length ? `</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="eligibility-grid"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="eligibility-item include"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="eligibility-label"&gt;<span class="s4">✓</span> Can join if you…&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>${elig.include.map(e =&gt; `&lt;p&gt;• ${escHtml(e)}&lt;/p&gt;`).join('') || '&lt;p&gt;See full criteria below&lt;/p&gt;'}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="eligibility-item exclude"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="eligibility-label"&gt;<span class="s5">✗</span> Cannot join if you…&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>${elig.exclude.map(e =&gt; `&lt;p&gt;• ${escHtml(e)}&lt;/p&gt;`).join('') || '&lt;p&gt;See full criteria below&lt;/p&gt;'}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;` : `&lt;div class="detail-body"&gt;&lt;p&gt;${escHtml(t.eligibility.slice(0, 600))}${t.eligibility.length &gt; 600 ? '…' : ''}&lt;/p&gt;&lt;/div&gt;`}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div style="margin-top:10px;font-size:12px;color:var(--ink-muted)"&gt;Age: ${t.minAge || '—'} to ${t.maxAge || '—'} · Sex: ${t.gender || 'All'} · ${t.healthyVolunteers === 'Yes' ? 'Healthy volunteers accepted' : 'Condition required'}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>${(t.closestLoc || t.locations.length) ? `</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="detail-section"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="detail-section-title"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"&gt;&lt;path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/&gt;&lt;circle cx="12" cy="10" r="3"/&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Where</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="detail-body"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>${t.closestLoc ? `&lt;p&gt;&lt;strong&gt;Nearest site:&lt;/strong&gt; ${escHtml(t.closestLoc.facility || '')}${locLabel ? ` — ${escHtml(locLabel)}` : ''}${distLabel ? ` &lt;span style="color:var(--teal)"&gt;(${distLabel})&lt;/span&gt;` : ''}&lt;/p&gt;` : ''}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p&gt;&lt;strong&gt;${t.locations.length}&lt;/strong&gt; total location${t.locations.length !== 1 ? 's' : ''} in this study&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;` : ''}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="detail-section"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="detail-section-title"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"&gt;&lt;path d="M3 3h18v18H3zM8 12h8M12 8v8"/&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Study details</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="detail-body"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>${t.sponsor ? `&lt;p&gt;&lt;strong&gt;Sponsor:&lt;/strong&gt; ${escHtml(t.sponsor)}&lt;/p&gt;` : ''}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>${t.startDate ? `&lt;p&gt;&lt;strong&gt;Started:&lt;/strong&gt; ${t.startDate}&lt;/p&gt;` : ''}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>${t.completionDate ? `&lt;p&gt;&lt;strong&gt;Estimated completion:&lt;/strong&gt; ${t.completionDate}&lt;/p&gt;` : ''}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p&gt;&lt;strong&gt;NCT ID:&lt;/strong&gt; &lt;a href="https://clinicaltrials.gov/study/${t.nctId}" target="_blank" style="color:var(--teal);text-decoration:none"&gt;${t.nctId} <span class="s3">↗</span>&lt;/a&gt;&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>${dqs.length ? `</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="detail-section"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="detail-section-title"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"&gt;&lt;circle cx="12" cy="12" r="10"/&gt;&lt;path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Questions to ask your doctor</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;ul class="doctor-questions"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>${dqs.map((q, i) =&gt; `&lt;li&gt;&lt;span class="q-num"&gt;${i+1}&lt;/span&gt;${escHtml(q)}&lt;/li&gt;`).join('')}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;` : ''}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="detail-cta"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;a href="https://clinicaltrials.gov/study/${t.nctId}" target="_blank" style="text-decoration:none"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button class="btn-primary" style="width:100%"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"&gt;&lt;path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>View on ClinicalTrials.gov</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;button class="btn-secondary" onclick="exportTrialSummary()"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"&gt;&lt;path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Save for my appointment</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>`;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p3"><span class="s1">// </span>═══════════════════════════════════════════════</p>
+<p class="p1">// EXPORT</p>
+<p class="p3"><span class="s1">// </span>═══════════════════════════════════════════════</p>
+<p class="p1">function exportSummary() {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const lines = [</p>
+<p class="p1"><span class="Apple-converted-space">    </span>`TRIALBRIDGE SEARCH SUMMARY`,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>`Condition: ${searchQuery.condition} | Age: ${searchQuery.age} | ZIP: ${searchQuery.zip}`,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>`Generated: ${new Date().toLocaleDateString()}`,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>``,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>...filteredTrials.slice(0, 10).map((t, i) =&gt; [</p>
+<p class="p1"><span class="Apple-converted-space">      </span>`${i+1}. ${t.title}`,</p>
+<p class="p1"><span class="Apple-converted-space">      </span>` <span class="Apple-converted-space">  </span>Phase: ${phaseLabel(t.phase)} | Status: ${t.status} | NCT: ${t.nctId}`,</p>
+<p class="p1"><span class="Apple-converted-space">      </span>` <span class="Apple-converted-space">  </span>${t.closestDistMi !== null ? `Distance: ${t.closestDistMi} miles | ` : ''}Match score: ${t.score}/100`,</p>
+<p class="p1"><span class="Apple-converted-space">      </span>` <span class="Apple-converted-space">  </span>${t.aiSummary || t.summary.slice(0, 180)}`,</p>
+<p class="p1"><span class="Apple-converted-space">      </span>` <span class="Apple-converted-space">  </span>https://clinicaltrials.gov/study/${t.nctId}`,</p>
+<p class="p1"><span class="Apple-converted-space">      </span>``</p>
+<p class="p1"><span class="Apple-converted-space">    </span>].join('\n'))</p>
+<p class="p1"><span class="Apple-converted-space">  </span>].join('\n');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>navigator.clipboard.writeText(lines).then(() =&gt; showToast('<span class="s4">✓</span> Summary copied to clipboard'));</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function exportTrialSummary() {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const t = currentTrial;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (!t) return;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const qs = parseDoctorQs(t.aiDoctorQs);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const text = [</p>
+<p class="p1"><span class="Apple-converted-space">    </span>`CLINICAL TRIAL — FOR MY DOCTOR APPOINTMENT`,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>``,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>`Trial: ${t.title}`,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>`NCT ID: ${t.nctId}`,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>`Status: ${t.status} | Phase: ${phaseLabel(t.phase)}`,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>`Link: https://clinicaltrials.gov/study/${t.nctId}`,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>``,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>`WHAT IT STUDIES`,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>t.aiSummary || t.summary.slice(0, 300),</p>
+<p class="p1"><span class="Apple-converted-space">    </span>``,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>qs.length ? `QUESTIONS TO ASK MY DOCTOR\n${qs.map((q,i) =&gt; `${i+1}. ${q}`).join('\n')}` : '',</p>
+<p class="p1"><span class="Apple-converted-space">    </span>``,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>`Generated by TrialBridge · ${new Date().toLocaleDateString()}`</p>
+<p class="p1"><span class="Apple-converted-space">  </span>].filter(Boolean).join('\n');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>navigator.clipboard.writeText(text).then(() =&gt; showToast('<span class="s4">✓</span> Trial summary copied — ready for your appointment'));</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p3"><span class="s1">// </span>═══════════════════════════════════════════════</p>
+<p class="p1">// UTILS</p>
+<p class="p3"><span class="s1">// </span>═══════════════════════════════════════════════</p>
+<p class="p1">function escHtml(str) {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (!str) return '';</p>
+<p class="p1"><span class="Apple-converted-space">  </span>return String(str).replace(/&amp;/g,'&amp;amp;').replace(/&lt;/g,'&amp;lt;').replace(/&gt;/g,'&amp;gt;').replace(/"/g,'&amp;quot;');</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">// Check API key status on load</p>
+<p class="p1">(function checkAPIKey() {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const el = document.getElementById('api-status');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (GEMINI_API_KEY !== 'AIzaSyASsDxbWHxDTiQSj36blHAs1DJr3zxbA3k') {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>el.textContent = '● AI enabled';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>el.classList.add('ok');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1">})();</p>
+<p class="p1">&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
