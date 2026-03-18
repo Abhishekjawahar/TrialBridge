@@ -2,10 +2,25 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TrialBridge — Find Your Clinical Trial</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="TrialBridge — Search 400,000+ clinical trials and get plain-language explanations. Find trials matched to your condition, age, and location.">
+<title>TrialBridge - Clinical Trial Finder</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+/* Font fallback stack — ensures layout holds even if Google Fonts is blocked */
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Georgia'), local('Times New Roman');
+  font-display: swap;
+}
+</style>
 <style>
 /* ── RESET & TOKENS ─────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -38,7 +53,7 @@
 
 html { font-size: 16px; scroll-behavior: smooth; }
 body {
-  font-family: 'DM Sans', system-ui, sans-serif;
+  font-family: 'DM Sans', ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   background: var(--paper);
   color: var(--ink);
   min-height: 100vh;
@@ -47,10 +62,10 @@ body {
 }
 
 /* ── TYPOGRAPHY ─────────────────────────────── */
-.serif { font-family: 'Instrument Serif', Georgia, serif; }
-.mono  { font-family: 'DM Mono', 'Courier New', monospace; }
+.serif { font-family: 'Instrument Serif', 'Georgia', 'Times New Roman', serif; }
+.mono  { font-family: 'DM Mono', 'Courier New', Courier, monospace; }
 
-h1, h2, h3 { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; line-height: 1.2; }
+h1, h2, h3 { font-family: 'Instrument Serif', Georgia, 'Times New Roman', serif; font-weight: 400; line-height: 1.2; }
 
 /* ── LAYOUT ─────────────────────────────────── */
 .container { max-width: 720px; margin: 0 auto; padding: 0 20px; }
@@ -455,6 +470,120 @@ header {
   .detail-section { padding: 18px 20px; }
 }
 
+/* ── MAP SPLIT VIEW ───────────────────────────── */
+#screen-results { padding: 0 0 80px; }
+
+.results-top {
+  padding: 24px 0 0;
+  position: sticky; top: 57px; z-index: 50;
+  background: var(--paper);
+}
+
+#trial-map {
+  width: 100%; height: 340px;
+  border-radius: 0;
+  border-top: 1px solid var(--paper-deep);
+  border-bottom: 1px solid var(--paper-deep);
+  position: relative; z-index: 1;
+}
+@media (min-width: 700px) {
+  #trial-map { height: 420px; }
+}
+
+/* Custom Leaflet popup styling */
+.leaflet-popup-content-wrapper {
+  border-radius: 10px !important;
+  box-shadow: var(--shadow-lg) !important;
+  border: 1px solid var(--paper-deep) !important;
+  padding: 0 !important;
+  overflow: hidden;
+}
+.leaflet-popup-content { margin: 0 !important; width: 240px !important; }
+.leaflet-popup-tip { background: white !important; }
+.leaflet-popup-close-button {
+  color: var(--ink-muted) !important;
+  font-size: 18px !important;
+  top: 8px !important; right: 8px !important;
+}
+
+.map-popup {
+  padding: 14px 16px 12px;
+  font-family: 'DM Sans', sans-serif;
+}
+.map-popup-num {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.8px; margin-bottom: 4px;
+}
+.map-popup-title {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: 14px; color: var(--ink); line-height: 1.35;
+  margin-bottom: 8px;
+}
+.map-popup-facility {
+  font-size: 12px; color: var(--ink-soft); margin-bottom: 2px;
+  display: flex; align-items: flex-start; gap: 5px;
+}
+.map-popup-contact {
+  font-size: 12px; color: var(--ink-muted); margin-bottom: 2px;
+  display: flex; align-items: center; gap: 5px;
+}
+.map-popup-contact a { color: var(--teal); text-decoration: none; }
+.map-popup-btn {
+  display: block; width: 100%; margin-top: 10px;
+  padding: 8px 12px; background: var(--teal); color: white;
+  border: none; border-radius: 6px; font-size: 12px; font-weight: 600;
+  font-family: 'DM Sans', sans-serif; cursor: pointer; text-align: center;
+  transition: background 0.15s;
+}
+.map-popup-btn:hover { background: var(--teal-mid); }
+
+/* Numbered pin */
+.trial-pin {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: white;
+  border: 2px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  font-family: 'DM Mono', monospace; cursor: pointer;
+  transition: transform 0.15s;
+}
+.trial-pin:hover { transform: scale(1.15); }
+.trial-pin.pin-high   { background: var(--green); }
+.trial-pin.pin-mid    { background: var(--amber); }
+.trial-pin.pin-low    { background: var(--ink-muted); }
+.trial-pin.pin-active { transform: scale(1.2); box-shadow: 0 0 0 3px rgba(13,122,110,0.35), 0 2px 8px rgba(0,0,0,0.3); }
+
+/* User ZIP pin */
+.zip-pin {
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--teal); border: 3px solid white;
+  box-shadow: 0 0 0 2px var(--teal), 0 3px 8px rgba(0,0,0,0.3);
+  animation: zipPulse 2s ease-in-out infinite;
+}
+@keyframes zipPulse {
+  0%,100% { box-shadow: 0 0 0 2px var(--teal), 0 3px 8px rgba(0,0,0,0.3); }
+  50%      { box-shadow: 0 0 0 6px rgba(13,122,110,0.2), 0 3px 8px rgba(0,0,0,0.3); }
+}
+
+/* Card active state when map pin selected */
+.trial-card.map-active {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 2px rgba(13,122,110,0.2), var(--shadow-md);
+}
+.trial-card.map-active::before { opacity: 1; }
+
+/* Card number badge */
+.card-num {
+  flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
+  font-size: 11px; font-weight: 700; font-family: 'DM Mono', monospace;
+  color: white; display: flex; align-items: center; justify-content: center;
+  margin-top: 2px;
+}
+.card-num.num-high { background: var(--green); }
+.card-num.num-mid  { background: var(--amber); }
+.card-num.num-low  { background: var(--ink-muted); }
+
+.results-body { padding: 20px 0 0; }
+
 /* ── PRINT ────────────────────────────────────── */
 @media print {
   header, .back-btn, .detail-cta, .filters-row, .results-actions { display: none !important; }
@@ -622,33 +751,45 @@ header {
 
 <!-- ══ SCREEN 3: RESULTS ══════════════════════════ -->
 <div id="screen-results" class="screen">
-  <div class="container-wide">
-    <div class="results-header">
-      <div>
-        <h2 class="results-title serif" id="results-title">Clinical trials found</h2>
-        <p class="results-meta" id="results-meta"></p>
+
+  <!-- Sticky header -->
+  <div class="results-top">
+    <div class="container-wide">
+      <div class="results-header">
+        <div>
+          <h2 class="results-title serif" id="results-title">Clinical trials found</h2>
+          <p class="results-meta" id="results-meta"></p>
+        </div>
+        <div class="results-actions">
+          <button class="btn-outline" onclick="exportSummary()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            Export
+          </button>
+          <button class="btn-outline" onclick="showScreen('intake')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 17l-5-5 5-5M18 17l-5-5 5-5"/></svg>
+            New search
+          </button>
+        </div>
       </div>
-      <div class="results-actions">
-        <button class="btn-outline" onclick="exportSummary()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-          Export
-        </button>
-        <button class="btn-outline" onclick="showScreen('intake')">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 17l-5-5 5-5M18 17l-5-5 5-5"/></svg>
-          New search
-        </button>
+      <div class="filters-row" id="filters-row">
+        <button class="filter-chip active" onclick="filterResults('all', this)">All trials</button>
+        <button class="filter-chip" onclick="filterResults('phase3', this)">Phase 3</button>
+        <button class="filter-chip" onclick="filterResults('nearby', this)">Near me (&lt;50mi)</button>
+        <button class="filter-chip" onclick="filterResults('high-match', this)">High match</button>
       </div>
     </div>
-
-    <div class="filters-row" id="filters-row">
-      <button class="filter-chip active" onclick="filterResults('all', this)">All trials</button>
-      <button class="filter-chip" onclick="filterResults('phase3', this)">Phase 3</button>
-      <button class="filter-chip" onclick="filterResults('nearby', this)">Near me (&lt;50mi)</button>
-      <button class="filter-chip" onclick="filterResults('high-match', this)">High match</button>
-    </div>
-
-    <div class="trials-list" id="trials-list"></div>
   </div>
+
+  <!-- Map -->
+  <div id="trial-map"></div>
+
+  <!-- Cards below map -->
+  <div class="results-body">
+    <div class="container-wide">
+      <div class="trials-list" id="trials-list"></div>
+    </div>
+  </div>
+
 </div>
 
 <!-- ══ SCREEN 4: DETAIL ═══════════════════════════ -->
@@ -667,9 +808,9 @@ header {
 
 <script>
 // ═══════════════════════════════════════════════
-// CONFIG — Gemini API
+// CONFIG — paste your Gemini API key here
 // ═══════════════════════════════════════════════
-const GEMINI_API_KEY = 'AIzaSyASsDxbWHxDTiQSj36blHAs1DJr3zxbA3k';
+const GEMINI_API_KEY = 'YOUR_GEMINI_API_KEY';
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 const CT_BASE = 'https://clinicaltrials.gov/api/v2/studies';
 
@@ -681,7 +822,13 @@ let searchQuery  = {};
 let allTrials    = [];
 let filteredTrials = [];
 let currentTrial = null;
-let zipCoords    = null; // {lat, lng} from ZIP
+let zipCoords    = null;
+
+// Map state
+let trialMap       = null;
+let mapMarkers     = [];
+let zipMarker      = null;
+let activeMarkerIdx = null;
 
 // ═══════════════════════════════════════════════
 // UI HELPERS
@@ -690,6 +837,10 @@ function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + id).classList.add('active');
   window.scrollTo(0, 0);
+  // Leaflet needs a size refresh when its container becomes visible
+  if (id === 'results' && trialMap) {
+    setTimeout(() => trialMap.invalidateSize(), 50);
+  }
 }
 
 function showToast(msg, duration = 2800) {
@@ -966,7 +1117,167 @@ async function startSearch() {
 }
 
 // ═══════════════════════════════════════════════
-// RENDER RESULTS
+// MAP ENGINE
+// ═══════════════════════════════════════════════
+function initMap() {
+  if (trialMap) { trialMap.remove(); trialMap = null; }
+  trialMap = L.map('trial-map', {
+    zoomControl: true,
+    scrollWheelZoom: false,
+    attributionControl: true
+  });
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    subdomains: 'abcd', maxZoom: 16
+  }).addTo(trialMap);
+}
+
+function pinClass(score) {
+  return score >= 80 ? 'pin-high' : score >= 60 ? 'pin-mid' : 'pin-low';
+}
+function numClass(score) {
+  return score >= 80 ? 'num-high' : score >= 60 ? 'num-mid' : 'num-low';
+}
+
+function buildPopupHTML(trial, idx) {
+  const loc = trial.closestLoc;
+  const contacts = trial.locations.flatMap(l => l.contacts || []).slice(0, 2);
+  const address = loc ? [loc.facility, loc.city, loc.state].filter(Boolean).join(', ') : '';
+  const distLabel = trial.closestDistMi !== null ? `${trial.closestDistMi} mi from your location` : '';
+
+  return `<div class="map-popup">
+    <div class="map-popup-num" style="color:${trial.score>=80?'var(--green)':trial.score>=60?'var(--amber)':'var(--ink-muted)'}">#${idx+1} &nbsp;${trial.score>=80?'Strong match':trial.score>=60?'Good match':'Possible match'}</div>
+    <div class="map-popup-title">${escHtml(trial.title)}</div>
+    ${address ? `<div class="map-popup-facility"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${escHtml(address)}</div>` : ''}
+    ${distLabel ? `<div class="map-popup-contact"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${distLabel}</div>` : ''}
+    ${contacts.map(c => `
+      ${c.name ? `<div class="map-popup-contact"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>${escHtml(c.name)}</div>` : ''}
+      ${c.phone ? `<div class="map-popup-contact"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 17z"/></svg><a href="tel:${c.phone}">${escHtml(c.phone)}</a></div>` : ''}
+      ${c.email ? `<div class="map-popup-contact"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:${escHtml(c.email)}">${escHtml(c.email)}</a></div>` : ''}
+    `).join('')}
+    <button class="map-popup-btn" onclick="openDetailFromMap(${idx})">View full details &rarr;</button>
+  </div>`;
+}
+
+function renderMap(trials) {
+  if (!trialMap) return;
+
+  // Clear existing markers
+  mapMarkers.forEach(m => m.remove());
+  mapMarkers = [];
+  if (zipMarker) { zipMarker.remove(); zipMarker = null; }
+  activeMarkerIdx = null;
+
+  const bounds = [];
+
+  // User ZIP marker
+  if (zipCoords) {
+    const zipIcon = L.divIcon({
+      className: '',
+      html: '<div class="zip-pin"></div>',
+      iconSize: [16, 16], iconAnchor: [8, 8]
+    });
+    zipMarker = L.marker([zipCoords.lat, zipCoords.lng], { icon: zipIcon, zIndexOffset: 1000 })
+      .addTo(trialMap)
+      .bindTooltip(`Your location (${zipCoords.city || searchQuery.zip})`, { direction: 'top', offset: [0, -8] });
+    bounds.push([zipCoords.lat, zipCoords.lng]);
+  }
+
+  // Trial markers
+  trials.forEach((trial, idx) => {
+    const loc = trial.closestLoc;
+    if (!loc?.geoPoint) return;
+
+    const cls  = pinClass(trial.score);
+    const pin  = L.divIcon({
+      className: '',
+      html: `<div class="trial-pin ${cls}">${idx + 1}</div>`,
+      iconSize: [28, 28], iconAnchor: [14, 14], popupAnchor: [0, -16]
+    });
+
+    const marker = L.marker([loc.geoPoint.lat, loc.geoPoint.lon], { icon: pin })
+      .addTo(trialMap)
+      .bindPopup(buildPopupHTML(trial, idx), { maxWidth: 260, minWidth: 240 });
+
+    marker.on('click', () => {
+      setActiveMarker(idx);
+      scrollToCard(idx);
+    });
+
+    marker.on('popupclose', () => {
+      if (activeMarkerIdx === idx) clearActiveMarker();
+    });
+
+    mapMarkers.push(marker);
+    bounds.push([loc.geoPoint.lat, loc.geoPoint.lon]);
+  });
+
+  // Fit map to all markers
+  if (bounds.length > 0) {
+    try {
+      trialMap.fitBounds(bounds, { padding: [40, 40], maxZoom: 10 });
+    } catch(e) {
+      if (zipCoords) trialMap.setView([zipCoords.lat, zipCoords.lng], 7);
+    }
+  } else if (zipCoords) {
+    trialMap.setView([zipCoords.lat, zipCoords.lng], 7);
+  } else {
+    trialMap.setView([39.5, -98.35], 4); // US center
+  }
+
+  // Invalidate size after render (fixes grey tiles on first show)
+  setTimeout(() => trialMap.invalidateSize(), 100);
+}
+
+function setActiveMarker(idx) {
+  // Remove active class from previous
+  if (activeMarkerIdx !== null && mapMarkers[activeMarkerIdx]) {
+    const el = mapMarkers[activeMarkerIdx].getElement()?.querySelector('.trial-pin');
+    if (el) el.classList.remove('pin-active');
+  }
+  // Set new active
+  activeMarkerIdx = idx;
+  if (mapMarkers[idx]) {
+    const el = mapMarkers[idx].getElement()?.querySelector('.trial-pin');
+    if (el) el.classList.add('pin-active');
+  }
+  // Highlight card
+  document.querySelectorAll('.trial-card').forEach((c, i) => {
+    c.classList.toggle('map-active', i === idx);
+  });
+}
+
+function clearActiveMarker() {
+  activeMarkerIdx = null;
+  document.querySelectorAll('.trial-card').forEach(c => c.classList.remove('map-active'));
+}
+
+function scrollToCard(idx) {
+  const cards = document.querySelectorAll('.trial-card');
+  if (cards[idx]) {
+    cards[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+}
+
+function flyToTrial(idx) {
+  const trial = filteredTrials[idx];
+  const loc   = trial?.closestLoc;
+  if (!loc?.geoPoint || !trialMap) return;
+  trialMap.flyTo([loc.geoPoint.lat, loc.geoPoint.lon], 12, { duration: 0.8 });
+  setTimeout(() => {
+    if (mapMarkers[idx]) mapMarkers[idx].openPopup();
+    setActiveMarker(idx);
+  }, 850);
+}
+
+function openDetailFromMap(idx) {
+  // Close popup first, then open detail
+  if (trialMap) trialMap.closePopup();
+  openDetail(idx);
+}
+
+// ═══════════════════════════════════════════════
+// RENDER RESULTS (updated)
 // ═══════════════════════════════════════════════
 function phaseLabel(phase) {
   const map = { PHASE1:'Phase 1', PHASE2:'Phase 2', PHASE3:'Phase 3', PHASE4:'Phase 4', 'EARLY_PHASE1':'Early Phase 1', NA:'N/A' };
@@ -991,18 +1302,21 @@ function renderResults(locationLabel) {
       <h3>No trials found</h3>
       <p>Try broadening your search — use a more general condition name, or remove the phase filter.</p>
     </div>`;
+    renderMap([]);
     return;
   }
 
   list.innerHTML = filteredTrials.map((t, i) => {
-    const st = statusLabel(t.status);
+    const st       = statusLabel(t.status);
+    const nCls     = numClass(t.score);
     const matchCls = t.score >= 80 ? 'high' : t.score >= 60 ? '' : 'med';
-    const matchLbl = t.score >= 80 ? '★ Strong match' : t.score >= 60 ? '✓ Good match' : '~ Possible match';
+    const matchLbl = t.score >= 80 ? 'Strong match' : t.score >= 60 ? 'Good match' : 'Possible match';
     const distLabel = t.closestDistMi !== null ? `${t.closestDistMi} mi away` : 'Distance unknown';
-    const summary = t.aiSummary || t.summary.slice(0, 220) + (t.summary.length > 220 ? '…' : '');
+    const summary   = t.aiSummary || t.summary.slice(0, 220) + (t.summary.length > 220 ? '...' : '');
 
-    return `<div class="trial-card" onclick="openDetail(${i})">
+    return `<div class="trial-card" id="card-${i}" onclick="handleCardClick(${i})">
       <div class="trial-card-top">
+        <span class="card-num ${nCls}">${i+1}</span>
         <div class="trial-card-title">${escHtml(t.title)}</div>
         <div class="match-score ${matchCls}">${matchLbl}</div>
       </div>
@@ -1016,16 +1330,26 @@ function renderResults(locationLabel) {
       </div>
     </div>`;
   }).join('');
+
+  // Render map after cards are in DOM
+  if (!trialMap) initMap();
+  renderMap(filteredTrials);
+}
+
+function handleCardClick(idx) {
+  flyToTrial(idx);
+  // Small delay before opening detail so map animation shows
+  setTimeout(() => openDetail(idx), 900);
 }
 
 function filterResults(type, btn) {
   document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
   btn.classList.add('active');
-  if (type === 'all')        filteredTrials = [...allTrials];
-  else if (type === 'phase3') filteredTrials = allTrials.filter(t => t.phase === 'PHASE3');
-  else if (type === 'nearby') filteredTrials = allTrials.filter(t => t.closestDistMi !== null && t.closestDistMi <= 50);
+  if (type === 'all')             filteredTrials = [...allTrials];
+  else if (type === 'phase3')     filteredTrials = allTrials.filter(t => t.phase === 'PHASE3');
+  else if (type === 'nearby')     filteredTrials = allTrials.filter(t => t.closestDistMi !== null && t.closestDistMi <= 50);
   else if (type === 'high-match') filteredTrials = allTrials.filter(t => t.score >= 75);
-  renderResults(searchQuery.zip);
+  renderResults(zipCoords ? `${zipCoords.city || ''}, ${zipCoords.state || ''}` : searchQuery.zip);
 }
 
 // ═══════════════════════════════════════════════
@@ -1227,7 +1551,7 @@ function escHtml(str) {
 // Check API key status on load
 (function checkAPIKey() {
   const el = document.getElementById('api-status');
-  if (GEMINI_API_KEY !== 'AIzaSyASsDxbWHxDTiQSj36blHAs1DJr3zxbA3k') {
+  if (GEMINI_API_KEY !== 'YOUR_GEMINI_API_KEY') {
     el.textContent = '● AI enabled';
     el.classList.add('ok');
   }
